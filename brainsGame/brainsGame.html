@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="brainsGame.css">
+</head>
+<body>
+<div class="container">
+    <h2>Memory Game </h2>
+    <div class="Game"></div>
+    <button class="reset">Reset Game</button>
+</div>
+  <script>
+    const images = [
+        "apple.png", "apple.png",
+         "bnana.png", "bnana.png", 
+         "cherry.png", "cherry.png",
+         "dragon.png","dragon.png",
+         "strawberry.png","strawberry.png", 
+         "lemon.png", "lemon.png",
+         "kiwi.png", "kiwi.png", 
+         "orange.png", "orange.png",
+    ]
+    var shuf_images = images.sort(() => (Math.random() > .5) ? 2 : -1);
+    for (var i=0; i<shuf_images.length; i++){
+        let box = document.createElement('div')
+        box.className ='item';
+        box.shuf_images[i];
+        box.onclick = function(){
+          this.classList.add('boxOpen')
+          setTimeout(function(){
+        if(document.querySelectorAll(".boxOpen").length > 1){
+        if(document.querySelectorAll('.boxOpen')[0].innerHTML ==
+        document.querySelectorAll('.boxOpen')[1].innerHTML){
+  document.querySelectorAll('.boxOpen')[0].classList.add('.boxMatch')
+  document.querySelectorAll('.boxOpen')[1].classList.add('boxMatch')
+  document.querySelectorAll('.boxOpen')[1].classList.remove('boxMatch')
+  document.querySelectorAll('.boxOpen')[1].classList.remove('boxMatch')
+
+  }
+},500)
+        }
+        box.innerHTML = `<img src="../assets/${shuf_images[i]}" alt="${shuf_images[i]}" style="width:100px; height:100px;">`;
+        document.querySelector('.Game').appendChild(box);
+    }
+  </script>
+</body>
+</html>
