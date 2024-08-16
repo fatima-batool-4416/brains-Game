@@ -8,6 +8,8 @@
 <body>
 <div class="container">
     <h2>Memory Game</h2>
+<div class="counter">Moves left: 10</div>
+
     <div class="Game"></div>
     <button class="reset">Reset Game</button>
 </div>
@@ -27,6 +29,8 @@
     let firstCard = null;
     let secondCard = null;
     let lockBoard = false;
+    let moves = 0;
+    const maxMoves = 10;
 
     function shuffleImages(images) {
         return images.sort(() => (Math.random() > 0.5) ? 1 : -1);
@@ -49,9 +53,15 @@
         }
     }
 
+    function updateCounter() {
+        const counterElement = document.querySelector('.counter');
+        counterElement.textContent = `Moves left: ${maxMoves - moves}`;
+    }
+
     function flipCard() {
         if (lockBoard) return;
         if (this === firstCard) return;
+        if (moves >= maxMoves) return;
 
         this.classList.add('boxOpen');
 
@@ -64,10 +74,19 @@
     }
 
     function checkForMatch() {
+        moves++;
+        updateCounter();
+
         if (firstCard.innerHTML === secondCard.innerHTML) {
             disableCards();
+            if (document.querySelectorAll('.item:not(.boxOpen)').length === 0) {
+                setTimeout(() => alert("You win!"), 500);
+            }
         } else {
             unflipCards();
+            if (moves >= maxMoves) {
+                setTimeout(() => alert("You lose!"), 500);
+            }
         }
     }
 
@@ -91,9 +110,10 @@
     }
 
     document.querySelector('.reset').addEventListener('click', () => {
+        moves = 0;
+        updateCounter();
         const cards = document.querySelectorAll('.item');
         cards.forEach(card => card.classList.remove('boxOpen'));
-
         setTimeout(createBoard, 500);
     });
 
